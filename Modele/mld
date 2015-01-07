@@ -1,0 +1,10 @@
+# Modèle créé le : Wed Jan 07 12:06:23 CET 2015 
+User (num_User, username, pwd, Date, mail, #num_maison) 
+Maison (num_maison, nbpiece, donnes, adresse) 
+Capteur (num_capteur, type) 
+Piece (num_piece, type_piece, surface_piece, temperature, #num_maison, #num_actionneur) 
+Actionneur (num_actionneur, type_actionneur, #num_messAc) 
+MesuresCap (num_mes, date, valeur) 
+Messure_Actionneurs (num_messAc, date_mess, Valeur) 
+Peut_avoir (num_piece, num_capteur) 
+mesure (num_capteur, num_mes) 

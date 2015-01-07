@@ -1,0 +1,69 @@
+DROP TABLE IF EXISTS User ;
+CREATE TABLE User (num_User INT  AUTO_INCREMENT NOT NULL,
+username VARCHAR(50),
+pwd VARCHAR(50),
+Date DATE,
+mail VARCHAR(50),
+num_maison INT NOT NULL,
+PRIMARY KEY (num_User) ) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS Maison ;
+CREATE TABLE Maison (num_maison INT  AUTO_INCREMENT NOT NULL,
+nbpiece INT,
+donnes VARCHAR(50),
+adresse VARCHAR(50),
+PRIMARY KEY (num_maison) ) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS Capteur ;
+CREATE TABLE Capteur (num_capteur INT  AUTO_INCREMENT NOT NULL,
+type VARCHAR,
+PRIMARY KEY (num_capteur) ) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS Piece ;
+CREATE TABLE Piece (num_piece INT  AUTO_INCREMENT NOT NULL,
+type_piece VARCHAR(50),
+surface_piece INT,
+temperature INT,
+num_maison INT NOT NULL,
+num_actionneur INT NOT NULL,
+PRIMARY KEY (num_piece) ) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS Actionneur ;
+CREATE TABLE Actionneur (num_actionneur INT  AUTO_INCREMENT NOT NULL,
+type_actionneur VARCHAR(50),
+num_messAc INT NOT NULL,
+PRIMARY KEY (num_actionneur) ) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS MesuresCap ;
+CREATE TABLE MesuresCap (num_mes INT  AUTO_INCREMENT NOT NULL,
+date DATE,
+valeur INT,
+PRIMARY KEY (num_mes) ) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS Messure_Actionneurs ;
+CREATE TABLE Messure_Actionneurs (num_messAc INT  AUTO_INCREMENT NOT NULL,
+date_mess DATE,
+Valeur INT,
+PRIMARY KEY (num_messAc) ) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS Peut_avoir ;
+CREATE TABLE Peut_avoir (num_piece INT  AUTO_INCREMENT NOT NULL,
+num_capteur INT NOT NULL,
+PRIMARY KEY (num_piece,
+ num_capteur) ) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS mesure ;
+CREATE TABLE mesure (num_capteur INT  AUTO_INCREMENT NOT NULL,
+num_mes INT NOT NULL,
+PRIMARY KEY (num_capteur,
+ num_mes) ) ENGINE=InnoDB;
+
+ALTER TABLE User ADD CONSTRAINT FK_User_num_maison FOREIGN KEY (num_maison) REFERENCES Maison (num_maison);
+
+ALTER TABLE Piece ADD CONSTRAINT FK_Piece_num_maison FOREIGN KEY (num_maison) REFERENCES Maison (num_maison);
+ALTER TABLE Piece ADD CONSTRAINT FK_Piece_num_actionneur FOREIGN KEY (num_actionneur) REFERENCES Actionneur (num_actionneur);
+ALTER TABLE Actionneur ADD CONSTRAINT FK_Actionneur_num_messAc FOREIGN KEY (num_messAc) REFERENCES Messure_Actionneurs (num_messAc);
+ALTER TABLE Peut_avoir ADD CONSTRAINT FK_Peut_avoir_num_piece FOREIGN KEY (num_piece) REFERENCES Piece (num_piece);
+ALTER TABLE Peut_avoir ADD CONSTRAINT FK_Peut_avoir_num_capteur FOREIGN KEY (num_capteur) REFERENCES Capteur (num_capteur);
+ALTER TABLE mesure ADD CONSTRAINT FK_mesure_num_capteur FOREIGN KEY (num_capteur) REFERENCES Capteur (num_capteur);
+ALTER TABLE mesure ADD CONSTRAINT FK_mesure_num_mes FOREIGN KEY (num_mes) REFERENCES MesuresCap (num_mes);
